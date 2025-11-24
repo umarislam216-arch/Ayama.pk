@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Amaya.pk — Dora Run Style Animated Website</title>
+<style>
+/* Bubble Spawn Animation */
+@keyframes bubbleSpawn {
+  0% { transform: scale(0.2) translateY(20px); opacity: 0; }
+  60% { transform: scale(1.15) translateY(-5px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}body { margin: 0; font-family: "Poppins", sans-serif; background: #f7f7f7; overflow-x: hidden; }
+
+/* HERO SECTION */ .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(135deg, #0ba3c1, #087b92); color: #fff; text-align: center; } .hero h1 { font-size: 48px; margin: 0; animation: fadeInUp 1s ease forwards; } .hero p { font-size: 20px; margin-top: 10px; animation: fadeInUp 1.3s ease forwards; }
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+/* PRODUCT SECTION */ .section { padding: 80px 20px; text-align: center; } .section h2 { font-size: 32px; margin-bottom: 40px; opacity: 0; transform: translateY(40px); transition: 0.6s; } .show { opacity: 1 !important; transform: translateY(0) !important; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; padding: 0 20px; } .card { background: #fff; padding: 20px; border-radius: 14px; box-shadow: 0 4px 18px rgba(0,0,0,0.1); transform: translateY(50px); opacity: 0; transition: 0.6s ease; } .card.show { opacity: 1; transform: translateY(0); }
+
+/* FLOATING ROBOT */ #robot { position: fixed; width: 120px; z-index: 9999; pointer-events: auto; left: 50%; transform: translateX(-50%); top: 20%; animation: float 3s ease-in-out infinite; }
+
+@keyframes float { 0%,100% { transform: translate(-50%, -10px); } 50% { transform: translate(-50%, 10px); } } </style>
+
+</head>
+<body><!-- Floating Robot PNG --><img
+id="robot"
+src="https://i.ibb.co/02mR54v/cute-robot.png"
+alt="Robot"
+/>
+
+<!-- Navigation Bubble System --><div class="bubble-nav">
+  <div class="bubble" data-target="s1">📱</div>
+  <div class="bubble" data-target="s2">🎧</div>
+  <div class="bubble" data-target="s3">🔌</div>
+</div><style>
+  .bubble-nav {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    z-index: 9999;
+  }
+  .bubble-nav .bubble:nth-child(1) { animation: bubbleSpawn 0.6s ease forwards; }
+  .bubble-nav .bubble:nth-child(2) { animation: bubbleSpawn 0.85s ease forwards; }
+  .bubble-nav .bubble:nth-child(3) { animation: bubbleSpawn 1.1s ease forwards; }
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    z-index: 9999;
+  }
+  .bubble {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #0ba3c1;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 26px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+    transition: 0.3s;
+  }
+  .bubble:hover {
+    transform: scale(1.15);
+    background: #087b92;
+  }
+</style><script>
+// Bubble navigation click → smooth open
+
+document.querySelectorAll('.bubble').forEach(bubble => {
+  bubble.addEventListener('click', () => {
+    const id = bubble.getAttribute('data-target');
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+</script><!-- Hero --><section class="hero">
+  <h1>Amaya.pk</h1>
+  <p>Mobile Accessories • Fast Delivery • +92 300 0023053</p>
+</section><!-- Product Sections --><section class="section" id="s1">
+  <h2>Mobile Accessories</h2>
+  <div class="grid">
+    <div class="card">Phone Cases</div>
+    <div class="card">Screen Protectors</div>
+    <div class="card">Power Banks</div>
+    <div class="card">Chargers</div>
+  </div>
+</section><section class="section" id="s2">
+  <h2>Audio & Wearables</h2>
+  <div class="grid">
+    <div class="card">Earphones</div>
+    <div class="card">Bluetooth Headsets</div>
+    <div class="card">Smart Bands</div>
+    <div class="card">Wireless Earbuds</div>
+  </div>
+</section><section class="section" id="s3">
+  <h2>Chargers & Cables</h2>
+  <div class="grid">
+    <div class="card">Fast Chargers</div>
+    <div class="card">USB-C Cables</div>
+    <div class="card">Lightning Cables</div>
+    <div class="card">Wireless Chargers</div>
+  </div>
+</section><script>
+// Scroll reveal animation
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) {
+      entry.target.classList.add('show');
+    }
+  });
+});
+
+document.querySelectorAll('h2, .card').forEach(el => observer.observe(el));
+
+// Dora‑style robot smooth curved movement on scroll
+window.addEventListener("scroll", () => {
+  const robot = document.getElementById("robot");
+  const sy = window.scrollY;
+
+  // curved left‑right motion
+  const x = Math.sin(sy * 0.01) * 120;
+  robot.style.left = `calc(50% + ${x}px)`;
+
+  // slow downward drift
+  robot.style.top = (20 + sy * 0.08) + "%";
+});
+
+// Robot click → move to clicked section + auto open
+const robot = document.getElementById("robot");
+robot.addEventListener("click", () => {
+  const target = document.getElementById("s1");
+
+  // Move robot visually toward the target
+  robot.style.transition = "all 1s ease";
+  robot.style.top = target.getBoundingClientRect().top / 2 + "px";
+
+  // Auto scroll to section
+  setTimeout(() => {
+    target.scrollIntoView({ behavior: "smooth" });
+  }, 300);
+});
+</script></body>
+</html>
